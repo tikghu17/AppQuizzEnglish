@@ -1,7 +1,7 @@
 package com.thanh.appquizzenglishv2;
 
-import com.thanh.quizzappv2.MyAlert;
-import com.thanh.quizzappv2.theme.themeColor;
+import com.thanh.appquizzenglishv2.utils.MyAlert;
+import com.thanh.appquizzenglishv2.utils.theme.ThemeColor;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -13,11 +13,11 @@ import javafx.scene.control.ComboBox;
 
 
 public class PrimaryController  implements Initializable{
-    @FXML private  ComboBox<themeColor> themeCl;
+    @FXML private  ComboBox<ThemeColor> themeCl;
     
 @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.themeCl.setItems(FXCollections.observableArrayList(themeColor.values()));
+        this.themeCl.setItems(FXCollections.observableArrayList(ThemeColor.values()));
     }
    public void manageQuestions(ActionEvent e){
        MyAlert.getInstance().showAlert("Comming soon ...");
@@ -31,19 +31,22 @@ public class PrimaryController  implements Initializable{
 
    }
     public void changTheme(ActionEvent e){
-        switch (this.themeCl.getSelectionModel().getSelectedItem()) {
-            case DARK:
-                this.themeCl.getScene().getRoot().getStylesheets().clear();
-                this.themeCl.getScene().getRoot().getStylesheets().add(App.class.getResource("Dark.css").toExternalForm());
-                break;
-                            case LIGHT:
-                this.themeCl.getScene().getRoot().getStylesheets().clear();
-                this.themeCl.getScene().getRoot().getStylesheets().add(App.class.getResource("Light.css").toExternalForm());
-                break;
-            default:
-                 this.themeCl.getScene().getRoot().getStylesheets().clear();
-                this.themeCl.getScene().getRoot().getStylesheets().add(App.class.getResource("Style.css").toExternalForm());
-        }
+        
+        
+        this.themeCl.getSelectionModel().getSelectedItem().updateTheme(this.themeCl.getScene());
+//        switch (this.themeCl.getSelectionModel().getSelectedItem()) {
+//            case DARK:
+//                this.themeCl.getScene().getRoot().getStylesheets().clear();
+//                this.themeCl.getScene().getRoot().getStylesheets().add(App.class.getResource("Dark.css").toExternalForm());
+//                break;
+//                            case LIGHT:
+//                this.themeCl.getScene().getRoot().getStylesheets().clear();
+//                this.themeCl.getScene().getRoot().getStylesheets().add(App.class.getResource("Light.css").toExternalForm());
+//                break;
+//            default:
+//                 this.themeCl.getScene().getRoot().getStylesheets().clear();
+//                this.themeCl.getScene().getRoot().getStylesheets().add(App.class.getResource("Style.css").toExternalForm());
+//        }
     }
 
     

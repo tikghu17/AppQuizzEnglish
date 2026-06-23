@@ -1,7 +1,8 @@
 module com.thanh.appquizzenglishv2 {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.base;
 
-    opens com.thanh.appquizzenglishv2 to javafx.fxml;
+    opens com.thanh to javafx.fxml;
     exports com.thanh.appquizzenglishv2;
 }
