@@ -5,4 +5,5 @@ module com.dht.quizappv2 {
     requires java.sql;
     opens com.dht.quizappv2 to javafx.fxml;
     exports com.dht.quizappv2;
+    exports com.dht.pojo;
 }
