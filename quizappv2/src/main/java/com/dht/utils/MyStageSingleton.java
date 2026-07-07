@@ -31,7 +31,7 @@ public class MyStageSingleton {
     public void showStage(String fxml) throws IOException{
         if(!this.stage.isShowing()){
             
-            Scene scene = new Scene(new FXMLLoader(App.class.getResource("questions.fxml")).load());
+            Scene scene = new Scene(new FXMLLoader(App.class.getResource(fxml+".fxml")).load());
             ThemeManager.applyTheme(scene);
             this.stage.setScene(scene);
             this.stage.show();

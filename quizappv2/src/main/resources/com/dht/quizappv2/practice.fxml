@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="Container" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dht.quizappv2.PracticeController">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subject" text="Luyện Tập" />
+      <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Container">
+         <children>
+            <TextField fx:id="txtLimit" prefHeight="33.0" prefWidth="150.0" text="5" />
+            <ComboBox fx:id="dscat" prefWidth="150.0" style="-fx-background-color: blue;" styleClass="Button" />
+            <ComboBox fx:id="dslevel" prefWidth="150.0" style="-fx-background-color: blue;" styleClass="Button" />
+            <Button mnemonicParsing="false" onAction="#start" styleClass="Button" text="Xác nhận" />
+         </children>
+      </HBox>
+      <Label text="Nội dung câu hỏi" />
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="lblcontent" text="chua noi dung cau hoi" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Container">
+         <children>
+            <Button mnemonicParsing="false" styleClass="Button" text="&lt;&lt;" />
+            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="190.0" style="-fx-background-color: green;" styleClass="Button" text="Kiểm tra" />
+            <Button mnemonicParsing="false" styleClass="Button" text="&gt;&gt;" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

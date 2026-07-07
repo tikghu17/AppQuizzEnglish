@@ -8,6 +8,7 @@ import com.dht.pojo.Category;
 import com.dht.pojo.Choice;
 import com.dht.pojo.Level;
 import com.dht.pojo.Question;
+import com.dht.pojo.QuestionQueyBuilder;
 import com.dht.services.CategoryServices;
 import com.dht.services.LevelServices;
 import com.dht.services.questions.QuestionServices;
@@ -47,34 +48,49 @@ public class QuestionsController implements Initializable {
         @FXML private TableView<Question>dsQuestion; 
         @FXML private ComboBox<Category> cbCates;
         @FXML private ComboBox<Level> cbLv;
-
+  @FXML private ComboBox<Level> cbsreachLv;
+    @FXML private ComboBox<Category> cbsearchcate;
+ @FXML private TextField txtsearch;
         @FXML private VBox vchoices;
   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
       
            this.loadColumns();
-          
+          this.loadTableQuestion();
+           
+               
             try {
-                this.cbLv.setItems(FXCollections.observableList(Configs.levelServices.getCase()));
+                this.cbsearchcate.setItems(FXCollections.observableList(Configs.ct.getCase()));
+                this.cbsreachLv.setItems(FXCollections.observableList(Configs.levelServices.getCase()));
+                
             } catch (SQLException ex) {
-                Logger.getLogger(QuestionsController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(QuestionsController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
             try {
+                                 this.cbLv.setItems(FXCollections.observableList(Configs.levelServices.getCase()));
                 this.cbCates.setItems(FXCollections.observableList(Configs.ct.getCase()));
+                
+                
             } catch (SQLException ex) {
-                Logger.getLogger(QuestionsController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(QuestionsController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
-            try { 
+            try {
                 this.dsQuestion.setItems(FXCollections.observableList(Configs.questionServices.getQuestionServices()));
             } catch (SQLException ex) {
-                Logger.getLogger(QuestionsController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(QuestionsController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
-
             
-     
-        
-    }    
+            this.txtsearch.textProperty().addListener(e -> {
+        this.loadTableQuestion();
+    });
+         this.cbsreachLv.getSelectionModel().selectedItemProperty().addListener(e -> {
+        this.loadTableQuestion();
+    });this.cbsearchcate.getSelectionModel().selectedItemProperty().addListener(e -> {
+        this.loadTableQuestion();
+    });
+        }    
+            
     public void loadColumns(){
         
         TableColumn coldI= new TableColumn("Id");
@@ -88,10 +104,10 @@ public class QuestionsController implements Initializable {
     
     public void addChoice(){
         HBox h = new HBox();
-        h.getStylesheets().add(".Containers");
+        h.getStylesheets().add("Containers");
         RadioButton rdo = new RadioButton();
         TextField txt = new TextField();
-        txt.getStylesheets().add(".Input");
+        txt.getStylesheets().add("Input");
         h.getChildren().addAll(rdo,txt);
         this.vchoices.getChildren().add(h);
     }
@@ -111,11 +127,19 @@ public class QuestionsController implements Initializable {
         }
        
              Configs.updateQuestonServices.addQuestions(q, dsChoice);
-        
-            
        
-            
-       
-       
+    }
+    
+    public void loadTableQuestion(){
+            try {
+                QuestionQueyBuilder query  = new QuestionQueyBuilder().widthkeyword(this.txtsearch.getText())
+                        .widthLevel(this.cbsreachLv.getSelectionModel().getSelectedItem())
+                        .widthCategory(this.cbsearchcate.getSelectionModel().getSelectedItem());
+                      Configs.questionServices.setQuery(query);
+                      this.dsQuestion.setItems(FXCollections.observableList(Configs.questionServices.getQuestionServices()));
+                        
+            } catch (SQLException ex) {
+                Logger.getLogger(QuestionsController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
     }
 }

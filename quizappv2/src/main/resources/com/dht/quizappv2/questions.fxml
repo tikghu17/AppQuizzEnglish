@@ -42,7 +42,13 @@
             <Button mnemonicParsing="false" onAction="#addChoice" styleClass="Button" text="Thêm phuong án" />
          </children>
       </HBox>
-      <ComboBox prefWidth="150.0" styleClass="Button" />
+      <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Container">
+         <children>
+            <TextField fx:id="txtsearch" />
+            <ComboBox fx:id="cbsearchcate" prefWidth="150.0" />
+            <ComboBox fx:id="cbsreachLv" prefWidth="150.0" />
+         </children>
+      </HBox>
       <TableView fx:id="dsQuestion" prefHeight="200.0" prefWidth="200.0" />
    </children>
 </VBox>

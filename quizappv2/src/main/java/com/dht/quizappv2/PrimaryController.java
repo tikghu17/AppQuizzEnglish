@@ -28,12 +28,12 @@ public class PrimaryController implements Initializable {
     }
     
     public void manageQuestions(ActionEvent e) throws IOException  {
-      MyStageSingleton.getInstance().showStage("questions.");
+      MyStageSingleton.getInstance().showStage("questions");
         
     }
     
-    public void practice(ActionEvent e) {
-        MyAlert.getInstance().showAlert("Comming soon...");
+    public void practice(ActionEvent e) throws IOException {
+        MyStageSingleton.getInstance().showStage("practice");
     }
     
     public void exam(ActionEvent e) {

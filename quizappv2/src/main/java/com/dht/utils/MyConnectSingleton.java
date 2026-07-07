@@ -25,7 +25,7 @@ public class MyConnectSingleton {
         }
     }
     private MyConnectSingleton() throws SQLException{
-    this.connect = DriverManager.getConnection("jdbc:mysql://localhost/quizzdb", "root", "root");
+    this.connect = DriverManager.getConnection("jdbc:mysql://localhost/quizdb", "root", "root");
     }
     public static MyConnectSingleton getInstance() throws SQLException{
         if(instance == null)

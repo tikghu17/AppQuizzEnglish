@@ -34,16 +34,18 @@ public class UpdateQuestonServices {
            if(rs.next()){
                int qId= rs.getInt(1);
                 sql = "Insert Into choice(content, is_correct,question_id) Values(?,?,?)";
-                stm = MyConnectSingleton.getInstance().connect().prepareCall(sql);
+                stm = conn.prepareCall(sql);
                 for(var c:choices)
                 {
                     stm.setString(1, c.getContent());
                     stm.setBoolean(2, c.isIsCorrect());
-                    stm.setInt(3, qId+1);
-                }
+                    stm.setInt(3, qId);
+                    stm.executeUpdate();
+                } 
+                conn.commit();
            }
-           conn.commit();
-       }
        
+       }
+          
     }
 }

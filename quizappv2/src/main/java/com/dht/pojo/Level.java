@@ -10,7 +10,10 @@ package com.dht.pojo;
  */
 public class Level {
 
-    public static java.util.logging.Level SEVERE;
+
+   
+
+   
     private int id;
     private String name;
     private String note;
@@ -20,6 +23,11 @@ public class Level {
         this.name = name;
   
     }
+
+    public Level() {
+        
+    }
+    
 
     @Override
     public String toString() {
