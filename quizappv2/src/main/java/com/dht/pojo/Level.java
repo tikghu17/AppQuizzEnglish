@@ -9,29 +9,20 @@ package com.dht.pojo;
  * @author admin
  */
 public class Level {
-
-
-   
-
-   
     private int id;
     private String name;
-    private String note;
 
+    public Level() {
+    }
+    
     public Level(int id, String name) {
         this.id = id;
         this.name = name;
-  
     }
-
-    public Level() {
-        
-    }
-    
 
     @Override
     public String toString() {
-        return String.format("%s", name); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        return this.name; 
     }
 
     /**
@@ -60,19 +51,5 @@ public class Level {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * @return the note
-     */
-    public String getNote() {
-        return note;
-    }
-
-    /**
-     * @param note the note to set
-     */
-    public void setNote(String note) {
-        this.note = note;
     }
 }

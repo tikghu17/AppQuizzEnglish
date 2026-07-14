@@ -11,14 +11,20 @@ package com.dht.pojo;
 public class Choice {
     private int id;
     private String content;
-    private boolean isCorrect;
-    private int questionId;
+    private boolean correct;
 
-    public Choice( String content, boolean isCorrect) {
-        
+    public Choice() {
+    }
+
+    public Choice(int id, String content, boolean correct) {
+        this.id = id;
         this.content = content;
-        this.isCorrect = isCorrect;
-        
+        this.correct = correct;
+    }
+    
+    public Choice(String content, boolean correct) {
+        this.content = content;
+        this.correct = correct;
     }
 
     /**
@@ -50,30 +56,16 @@ public class Choice {
     }
 
     /**
-     * @return the isCorrect
+     * @return the correct
      */
-    public boolean isIsCorrect() {
-        return isCorrect;
+    public boolean isCorrect() {
+        return correct;
     }
 
     /**
-     * @param isCorrect the isCorrect to set
+     * @param correct the correct to set
      */
-    public void setIsCorrect(boolean isCorrect) {
-        this.isCorrect = isCorrect;
-    }
-
-    /**
-     * @return the questionId
-     */
-    public int getQuestionId() {
-        return questionId;
-    }
-
-    /**
-     * @param questionId the questionId to set
-     */
-    public void setQuestionId(int questionId) {
-        this.questionId = questionId;
+    public void setCorrect(boolean correct) {
+        this.correct = correct;
     }
 }

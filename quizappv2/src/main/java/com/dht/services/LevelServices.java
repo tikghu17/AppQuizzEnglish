@@ -4,29 +4,51 @@
  */
 package com.dht.services;
 
+import com.dht.pojo.Category;
 import com.dht.pojo.Level;
-import com.dht.utils.MyConnectSingleton;
+import com.dht.utils.MyConnSingleton;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  *
  * @author admin
  */
-public class LevelServices {
-     public List<Level> getCase() throws SQLException{
-        String sql= "Select * from level";
-        Statement st = MyConnectSingleton.getInstance().connect().createStatement();
-        ResultSet rs= st.executeQuery(sql);
-        List<Level> ds = new ArrayList<>();
-        while(rs.next())
-        {
-            ds.add(new Level(rs.getInt(1),rs.getString(2)));
-            
+public class LevelServices extends QueryServiceBase<Level>{
+    
+    
+    @Override
+    public List<Level> getResultSet(ResultSet rs) {
+        
+         List<Level> levels = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                try {
+                    levels.add(new Level(rs.getInt("id"), rs.getString("name")));
+                } catch (SQLException ex) {
+                    Logger.getLogger(LevelServices.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LevelServices.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        return ds;
+        
+        return levels;
+    }
+
+    @Override
+    public PreparedStatement getStm() {
+        try {
+            String sql = "SELECT * FROM level";
+            return MyConnSingleton.getInstance().connect().prepareCall(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(LevelServices.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        return null;
+       
     }
 }

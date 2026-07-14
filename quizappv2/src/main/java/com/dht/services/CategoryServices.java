@@ -4,32 +4,51 @@
  */
 package com.dht.services;
 
-import com.dht.utils.MyConnectSingleton;
 import com.dht.pojo.Category;
+import com.dht.utils.MyConnSingleton;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author admin
  */
-public class CategoryServices {
+public class CategoryServices extends QueryServiceBase<Category>{
    
-    public List<Category> getCase() throws SQLException{
-        String sql= "Select * from category";
-        Statement st = MyConnectSingleton.getInstance().connect().createStatement();
-        ResultSet rs= st.executeQuery(sql);
-        List<Category> ds = new ArrayList<>();
-        while(rs.next())
-        {
-            ds.add(new Category(rs.getInt("id"),rs.getString("name")));
+
+    @Override
+    public List<Category> getResultSet(ResultSet rs) {
+        try {
+            List<Category> cates = new ArrayList<>();
+            while (rs.next()) {
+                try {
+                    cates.add(new Category(rs.getInt("id"), rs.getString("name")));
+                } catch (SQLException ex) {
+                    Logger.getLogger(CategoryServices.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
             
+            return cates;
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryServices.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return ds;
+        return null;
     }
-    
-    
+
+    @Override
+    public PreparedStatement getStm() {
+        try {
+            String sql = "Select * from category ";
+            return MyConnSingleton.getInstance().connect().prepareCall(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

@@ -1,11 +1,10 @@
-* {
-    -fx-font-family: Tahoma;
-}
+
 
 .Container {
     -fx-background-color: lightblue;
     -fx-alignment: CENTER;
     -fx-spacing: 15;
+    -fx-padding: 10;
 }
 
 .Subject {
@@ -19,10 +18,16 @@
 .Button {
     -fx-background-color: darkblue;
     -fx-text-fill: white;
-    -fx-pref-width: 200;
+    -fx-pref-width: 350;
     -fx-padding: 10;
-    -fx-font-size: 16;
+    -fx-font-size: 14;
 }
-.Input{
-  
+
+.Input {
+    -fx-pref-width: 250;
+    -fx-padding: 5;
+}
+
+.combo-box > .list-cell {
+    -fx-text-fill: white; 
 }

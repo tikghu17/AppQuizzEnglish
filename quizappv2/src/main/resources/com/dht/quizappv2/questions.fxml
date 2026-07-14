@@ -6,32 +6,36 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="641.0" prefWidth="600.0" styleClass="Container" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dht.quizappv2.QuestionsController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="725.0" prefWidth="647.0" styleClass="Container" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dht.quizappv2.QuestionsController">
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="Subject" text="Quản lý câu hỏi" />
-      <TextArea fx:id="txt" prefHeight="67.0" prefWidth="600.0" />
-      <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Container">
+      <TextArea fx:id="txtContent" prefHeight="68.0" prefWidth="627.0" promptText="Nội dung câu hỏi" />
+      <HBox styleClass="Container">
          <children>
-            <ComboBox fx:id="cbLv" prefWidth="150.0" styleClass="Button" />
-            <ComboBox fx:id="cbCates" prefWidth="150.0" styleClass="Button" />
+            <ComboBox fx:id="cbCates" prefWidth="150.0" promptText="Danh mục" styleClass="Button" />
+            <ComboBox fx:id="cbLevels" prefWidth="150.0" promptText="Danh mục" styleClass="Button" />
          </children>
       </HBox>
-      <VBox fx:id="vchoices" prefHeight="200.0" prefWidth="100.0" styleClass="Container">
+      <VBox fx:id="vChoices" prefHeight="121.0" prefWidth="580.0">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Container">
+            <HBox prefHeight="42.0" prefWidth="580.0" styleClass="Container">
                <children>
-                  <RadioButton mnemonicParsing="false" />
-                  <TextField />
+                  <RadioButton mnemonicParsing="false">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="toggle" />
+                     </toggleGroup></RadioButton>
+                  <TextField styleClass="Input" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Container">
+            <HBox layoutX="10.0" layoutY="10.0" prefHeight="41.0" prefWidth="580.0" styleClass="Container">
                <children>
-                  <RadioButton mnemonicParsing="false" />
-                  <TextField />
+                  <RadioButton mnemonicParsing="false" toggleGroup="$toggle" />
+                  <TextField styleClass="Input" />
                </children>
             </HBox>
          </children>
@@ -39,16 +43,16 @@
       <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Container">
          <children>
             <Button mnemonicParsing="false" onAction="#addQuestion" style="-fx-background-color: red;" styleClass="Button" text="Thêm câu hỏi" />
-            <Button mnemonicParsing="false" onAction="#addChoice" styleClass="Button" text="Thêm phuong án" />
+            <Button mnemonicParsing="false" onAction="#addChoice" onDragDetected="#addChoice" styleClass="Button" text="Thêm phương án" />
          </children>
       </HBox>
-      <HBox prefHeight="100.0" prefWidth="200.0" styleClass="Container">
+      <HBox prefHeight="59.0" prefWidth="627.0" styleClass="Container">
          <children>
-            <TextField fx:id="txtsearch" />
-            <ComboBox fx:id="cbsearchcate" prefWidth="150.0" />
-            <ComboBox fx:id="cbsreachLv" prefWidth="150.0" />
+            <TextField fx:id="txtSearchText" />
+            <ComboBox fx:id="cbSearchCates" prefWidth="150.0" />
+            <ComboBox fx:id="cbSearchLevels" prefWidth="150.0" />
          </children>
       </HBox>
-      <TableView fx:id="dsQuestion" prefHeight="200.0" prefWidth="200.0" />
+      <TableView fx:id="tvQuestions" prefHeight="223.0" prefWidth="627.0" />
    </children>
 </VBox>

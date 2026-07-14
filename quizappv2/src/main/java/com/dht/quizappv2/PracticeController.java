@@ -7,10 +7,11 @@ package com.dht.quizappv2;
 import com.dht.pojo.Category;
 import com.dht.pojo.Level;
 import com.dht.pojo.Question;
-import com.dht.pojo.QuestionQueyBuilder;
-import com.dht.services.questions.QuestionServices;
+import com.dht.pojo.QuestionQueryBuilder;
+import com.dht.services.FlyweigthFactory;
+import com.dht.services.questions.QuestionServicesDecorator;
 import com.dht.utils.Configs;
-import java.io.ObjectInputFilter;
+import com.dht.utils.MyAlertSingleton;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -20,10 +21,13 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.VBox;
 
 /**
  * FXML Controller class
@@ -31,28 +35,87 @@ import javafx.scene.control.TextField;
  * @author admin
  */
 public class PracticeController implements Initializable {
-    @FXML private ComboBox<Category> dscat;
-    @FXML private ComboBox<Level> dslevel;
-    private List<Question> questons;
-    @FXML private Label lblcontent;
-@FXML TextField txtLimit;
-    
+
+    @FXML
+    private ComboBox<Category> cbSearchCates;
+    @FXML
+    private ComboBox<Level> cbSearchLevels;
+    @FXML
+    private TextField txtNum;
+    @FXML
+    private Label lblContent;
+    @FXML
+    private VBox vChoices;
+    private List<Question> questions;
+    private int currentIdx = -1;
+
+    /**
+     * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            this.dscat.setItems(FXCollections.observableList(Configs.ct.getCase()));
-            this.dslevel.setItems(FXCollections.observableList(Configs.levelServices.getCase()));
+            this.cbSearchCates.setItems(FXCollections.observableList(FlyweigthFactory.getData(Configs.cateService, Configs.Cate_key)));
+            this.cbSearchLevels.setItems(FXCollections.observableList(FlyweigthFactory.getData(Configs.lvlService, Configs.Lvl_key)));
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
+
+    public void start(ActionEvent e) {
+        QuestionQueryBuilder b = new QuestionQueryBuilder()
+                .setLimit(this.txtNum.getText()).setOrderBy("rand()")
+                .widthCategory(this.cbSearchCates.getSelectionModel().getSelectedItem())
+                .widthLevel(this.cbSearchLevels.getSelectionModel().getSelectedItem());
+        Configs.questionService.setQuery(b);
+
+        try {
+            this.questions = new QuestionServicesDecorator(Configs.questionService).list();
+            this.loadQuestion(1);
         } catch (SQLException ex) {
             Logger.getLogger(PracticeController.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    }    
-    public void start(ActionEvent e) throws SQLException{
-        QuestionQueyBuilder query = new QuestionQueyBuilder().setLimit(this.txtLimit.getText()).
-                widthCategory(this.dscat.getSelectionModel().getSelectedItem()).widthLevel(this.dslevel.getSelectionModel().getSelectedItem());
-        Configs.questionServices.setQuery(query);
-        this.questons = Configs.questionServices.getQuestionServices();
-           
-        
+    }
+
+    public void next(ActionEvent e) {
+        this.loadQuestion(1);
+    }
+
+    public void previous(ActionEvent e) {
+        this.loadQuestion(-1);
     }
     
+    public void checkAnswer(ActionEvent e) {
+        Question q = this.questions.get(this.currentIdx);
+        
+        for (int i = 0; i < this.vChoices.getChildren().size(); i++) {
+            RadioButton r = (RadioButton)this.vChoices.getChildren().get(i);
+            if (r.isSelected()){
+                if (q.getChoices().get(i).isCorrect() == true) 
+                    MyAlertSingleton.getInstance().showAlert("CHÍNH XÁC!!!");
+                else
+                    MyAlertSingleton.getInstance().showAlert("SAI RỒI!!!", Alert.AlertType.ERROR);
+                break;
+            }
+        }
+    }
+
+    private void loadQuestion(int step) {
+        this.currentIdx += step;
+        if (this.currentIdx >= 0 && this.currentIdx < this.questions.size()) {
+            Question q = this.questions.get(this.currentIdx);
+            this.lblContent.setText(q.getContent());
+
+            ToggleGroup t = new ToggleGroup();
+            this.vChoices.getChildren().clear();
+            for (var c : q.getChoices()) {
+                RadioButton r = new RadioButton(c.getContent());
+                r.setToggleGroup(t);
+                this.vChoices.getChildren().add(r);
+            }
+        }
+    }
 }

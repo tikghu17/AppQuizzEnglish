@@ -18,23 +18,31 @@ import javafx.stage.Stage;
 public class MyStageSingleton {
     private static MyStageSingleton instance;
     private final Stage stage;
-    private MyStageSingleton(){
-    this.stage= new Stage();
-    this.stage.setTitle("Quizz App");
     
+    private MyStageSingleton() {
+        this.stage = new Stage();
+        this.stage.setTitle("Quiz App");
     }
-    public static MyStageSingleton getInstance(){
-        if(instance==null)
+    
+    public static MyStageSingleton getInstance() {
+        if (instance == null)
             instance = new MyStageSingleton();
-        return  instance;
+        
+        return instance;
     }
-    public void showStage(String fxml) throws IOException{
-        if(!this.stage.isShowing()){
-            
-            Scene scene = new Scene(new FXMLLoader(App.class.getResource(fxml+".fxml")).load());
-            ThemeManager.applyTheme(scene);
-            this.stage.setScene(scene);
-            this.stage.show();
+    
+    public void showStage(String fxml) {
+        if (!this.stage.isShowing()) {
+            try {
+                Scene scene = new Scene(new FXMLLoader(App.class.getResource(fxml + ".fxml")).load());
+                
+                ThemeManager.applyTheme(scene);
+                
+                this.stage.setScene(scene);
+                this.stage.show();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }

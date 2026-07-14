@@ -4,57 +4,67 @@
  */
 package com.dht.services.questions;
 
-import com.dht.pojo.Category;
-import com.dht.pojo.Level;
-import com.dht.utils.MyConnectSingleton;
+import com.dht.pojo.Choice;
 import com.dht.pojo.Question;
-import com.dht.pojo.QuestionQueyBuilder;
+import com.dht.pojo.QuestionQueryBuilder;
+import com.dht.services.QueryServiceBase;
+import com.dht.utils.MyConnSingleton;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author admin
  */
-public class QuestionServices {
-    private QuestionQueyBuilder query;
-
-    public QuestionServices(QuestionQueyBuilder query) {
-        this.query = query;
-    }
+public class QuestionServices extends QueryServiceBase<Question> implements QuestionServicesBase{
+    private QuestionQueryBuilder query;
 
     public QuestionServices() {
     }
-    
-    
-     public List<Question> getQuestionServices() throws SQLException{
-//         String sql= "Select * From question Where 1=1";
-//         List<Object> params  = new ArrayList<>();
-//        
-//         
-//        
-//          PreparedStatement stm = MyConnectSingleton.getInstance().connect().prepareCall(sql);
-//          for(int i=0;i<params.size();i++)
-//              stm.setObject(i+1, params.get(i));
 
-     PreparedStatement stm  = this.query.build();
-        ResultSet rs = stm.executeQuery();
-         List<Question> questions = new ArrayList<>();
-          while(rs.next()){
-            questions.add(new Question.QuestionBuilder().setID(rs.getInt(1)).setContent(rs.getString(2)).build());
-        }
-          return questions;
-     }
-
-    /**
-     * @param query the query to set
-     */
-    public void setQuery(QuestionQueyBuilder query) {
+    public QuestionServices(QuestionQueryBuilder query) {
         this.query = query;
     }
+    
+    
+
+    /**
+     * @param sql the sql to set
+     */
+    public void setQuery(QuestionQueryBuilder query) {
+        this.query = query;
+    }
+
+    @Override
+    public List<Question> getResultSet(ResultSet rs) {
+        try {
+            List<Question> questions = new ArrayList<>();
+            while (rs.next()) {
+                questions.add(new Question.QuestionBuilder().setContent(rs.getString("content"))
+                        .setId(rs.getInt("id")).build());
+            }
+            
+            return questions;
+        } catch (SQLException ex) {
+            Logger.getLogger(QuestionServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    @Override
+    public PreparedStatement getStm() {
+        try {
+            return this.query.build();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuestionServices.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    
 }

@@ -11,19 +11,22 @@ package com.dht.pojo;
 public class Category {
     private int id;
     private String name;
-    public  Category(int d, String n){
-        this.id=d;
-        this.name=n;
-    }
 
-    @Override
-    public String toString() {
-        return String.format("%s", name); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    public Category(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Category() {
     }
+
+    @Override
+    public String toString() {
+        return this.name; // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
     
+    
+
     /**
      * @return the id
      */
@@ -51,5 +54,4 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
-    
 }
